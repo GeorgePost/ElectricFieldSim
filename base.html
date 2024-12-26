@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <title>Physics Sim</title>
+        <link rel="stylesheet" href="styles.css">
+        <script type="text/javascript" src="jquery-3.7.1.slim.min.js"></script>
+        <script type="text/javascript" src="main.js"></script>
+        
+    </head>
+<body>
+    <canvas id="field" height="600" width="1000"></canvas>
+    <div id="controls">
+        <table>
+            <tr>
+                <td>Stationary Charge:</td>
+                <td>
+                    <label class="switch">
+                        <input id="StationaryCharge" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </td>
+                <td>
+                    Moving Charge
+                </td>
+                <td>
+                    <label class="switch">
+                        <input id="MovingCharge" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </td>   
+            </tr>
+            <tr>
+                <td>Charge</td>
+                <td>
+                    <input id="StationaryChargeAmount" type="text" value="1" />
+                    <button class="choosen" id="StationaryTypeE">e</button>
+                    <button id="StationaryTypeC">C</button>
+                </td>
+                <td>Charge</td>
+                <td>
+                    <input id="MovingChargeAmount" type="text" value="1" />
+                    <button class="choosen" id="MovingTypeE">e</button>
+                    <button id="MovingTypeC">C</button>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Position</td>
+                <td>
+                    <input id="Position" type="range" min="1" max="10" value="2">
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
