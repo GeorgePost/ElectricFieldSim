@@ -2,21 +2,29 @@ let starionary={x:0,charge:(1.6e-19)};
 let moving={x:1,charge:(1.6e-19),v:0,volts:0,m:9.109e-31};
 let work=0;
 let playing=false;
-const k=9e3;
+let k=9e3;
 
 function drawGridLine(ctx,tickLineLength){
     ctx.beginPath();
     ctx.fillStyle="Black";
     ctx.moveTo(0,200);
     ctx.lineTo($("#field").width(),200);
-    ctx.stroke(); 
+    ctx.stroke();
     for(let i=1;i<=15;i++){
-        ctx.moveTo(100*i -10 ,200-tickLineLength);
-        ctx.lineTo(100*i-10,200+tickLineLength);
+        ctx.moveTo(100*i -25 ,200-tickLineLength);
+        ctx.lineTo(100*i-25,200+tickLineLength);
         ctx.stroke();
         ctx.font = "10px Arial";
-        ctx.fillText(i,100*i - (i>=10? 16:9),200+tickLineLength*4);
+        ctx.fillText(i,100*i - (i>=10? 31:26),200+tickLineLength*4); 
     }
+    let units="km";
+    if(starionary.charge<1e-6 && moving.charge<1e-6){
+        k=9e3;
+    }else if((starionary.charge>=1e-6 && moving.charge<1e-6)||(starionary.charge<1e-6 && moving.charge>=1e-6)){
+        units="Gm"
+        k=9e-9;
+    }
+    ctx.fillText(units,$("#field").width()-18,220);
 }
 function drawStationaryCharge(ctx,charge){
     let Stationarycolor="#ff0e0e";
@@ -39,12 +47,12 @@ function drawMovingCharge(ctx,moving){
     drawStationaryCharge(ctx,starionary.charge);
     ctx.beginPath();
     ctx.fillStyle=color;
-    ctx.arc(100*moving.x-10, 200, 10, 0, 2 * Math.PI);
+    ctx.arc(100*moving.x-25, 200, 10, 0, 2 * Math.PI);
     ctx.fill();
 }
 function clearScreen(ctx){
     ctx.beginPath();
-    ctx.fillStyle='white';
+    ctx.fillStyle='#faff81';
     ctx.fillRect(0,0,$("#field").width(),$("#field").height());
 }
 function claculateForce(){
@@ -59,7 +67,7 @@ function updateMoving(dt){
     moving.v+=(force/moving.m)*dt;
     moving.x+=moving.v*dt;
     moving.volts=calculateVoltage();
-    console.log(moving,work);
+    console.log(force/moving.m, moving.charge);
 }
 function draw(){
     const dt=0.1;
@@ -78,13 +86,15 @@ $(document).ready(
             $('#StationaryTypeE').addClass("choosen");
             $('#StationaryTypeC').removeClass("choosen");
             starionary.charge*=1.6e-19;
+            drawMovingCharge(ctx,moving);
         }
     });
     $("#StationaryTypeC").click(function(){
         if(!($('#StationaryTypeC').hasClass('choosen'))){
             $('#StationaryTypeC').addClass("choosen");
             $('#StationaryTypeE').removeClass("choosen");
-            starionary.charge/=1.6e-19;
+            starionary.charge/=1.6e-13;
+            drawMovingCharge(ctx,moving);
         }
     });
     $('#MovingTypeE').click(function(){
@@ -92,13 +102,15 @@ $(document).ready(
             $('#MovingTypeE').addClass("choosen");
             $('#MovingTypeC').removeClass("choosen");
             moving.charge*=1.6e-19;
+            drawMovingCharge(ctx,moving);
         }
     });
     $("#MovingTypeC").click(function(){
         if(!($('#MovingTypeC').hasClass('choosen'))){
             $('#MovingTypeC').addClass("choosen");
             $('#MovingTypeE').removeClass("choosen");
-            moving.charge/=1.6e-19;
+            moving.charge/=1.6e-13;
+            drawMovingCharge(ctx,moving);
         }
     });
     $("#StationaryCharge").click(function(){
@@ -116,17 +128,18 @@ $(document).ready(
         drawMovingCharge(ctx,moving);
     });
     $("#MovingChargeAmount").change(function(){
-        if(moving.charge<1){
+        if(moving.charge<1e-6){
             moving.charge=(parseInt($(this).val())*(1.6e-19));
         }else{
-            moving.charge=(parseInt($(this).val()));
+            moving.charge=(parseInt($(this).val())*1e-6);
+            scale++;
         }
     })
     $("#StationaryChargeAmount").change(function(){
-        if(starionary.charge<1){
+        if(starionary.charge<1e-6){
             starionary.charge=(parseInt($(this).val())*(1.6e-19));
         }else{
-            starionary.charge=(parseInt($(this).val()));
+            starionary.charge=(parseInt($(this).val())*1e-6);
         }
     })
     $("#PlaySim").click(function(){
