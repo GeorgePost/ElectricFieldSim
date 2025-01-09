@@ -60,7 +60,12 @@ function calculateVoltage(charge,x){
     return vk*(charge)/(x)
 }
 function calculateVelocity(volt,m,q,prevVolt){
-    return Math.sqrt(2*q*(volt-prevVolt)/(m*9e9));
+    if(volt>prevVolt){
+        return Math.sqrt(2*q*(volt-prevVolt)/(m*9e9));
+    }else{
+        return Math.sqrt(2*q*(prevVolt-volt)/(m*9e9));
+    }
+    
 }
 function updateMoving(dt){
     const prevVoltage=calculateVoltage(moving.charge,moving.x);
