@@ -2,7 +2,11 @@ let starionary={x:0,charge:(1.6e-19)};
 let moving={x:1,charge:(1.6e-19),v:0,volts:0,m:9.109e-31};
 let work=0;
 let playing=false;
-let k=9e3;
+let vk=9e18;
+let startVoltage=0;
+let endVoltage=0;
+let calculatedWork=0;
+let k=9e6;
 
 function drawGridLine(ctx,tickLineLength){
     ctx.beginPath();
@@ -18,12 +22,6 @@ function drawGridLine(ctx,tickLineLength){
         ctx.fillText(i,100*i - (i>=10? 31:26),200+tickLineLength*4); 
     }
     let units="km";
-    if(starionary.charge<1e-6 && moving.charge<1e-6){
-        k=9e3;
-    }else if((starionary.charge>=1e-6 && moving.charge<1e-6)||(starionary.charge<1e-6 && moving.charge>=1e-6)){
-        units="Gm"
-        k=9e-9;
-    }
     ctx.fillText(units,$("#field").width()-18,220);
 }
 function drawStationaryCharge(ctx,charge){
@@ -55,28 +53,32 @@ function clearScreen(ctx){
     ctx.fillStyle='#faff81';
     ctx.fillRect(0,0,$("#field").width(),$("#field").height());
 }
-function claculateForce(){
+function calculateForce(){
     return k*(moving.charge*starionary.charge)/Math.pow(moving.x,2)
 }
 function calculateVoltage(){
-    return k*(starionary.charge)/(moving.x)
+    return vk*(starionary.charge)/(moving.x)
 }
 function updateMoving(dt){
-    const force= claculateForce()
-    work+=force*moving.v*dt;
+    const force= calculateForce();
+    
     moving.v+=(force/moving.m)*dt;
+    work+=(force*moving.v*dt);
     moving.x+=moving.v*dt;
     moving.volts=calculateVoltage();
-    console.log(force/moving.m, moving.charge);
+    console.log(moving);
 }
 function draw(){
-    const dt=0.1;
+    const dt=0.005;
     clearScreen(ctx);
     updateMoving(dt);
     drawMovingCharge(ctx,moving);
     if(playing){
         window.requestAnimationFrame(draw);
     }   
+}
+function calculateWork(v1,v2,q,divisor){
+    return (v1-v2)/divisor*q;
 }
 $(document).ready(
     function(){
@@ -143,8 +145,23 @@ $(document).ready(
         }
     })
     $("#PlaySim").click(function(){
-        playing=!playing;
-        window.requestAnimationFrame(draw);
+        if(!playing){
+            playing=true;
+            $(this).attr("src","./images/pause.png");
+            startVoltage=calculateVoltage();
+            const sV=startVoltage;
+            $("#startVoltage").text(sV.toFixed(2)+" nV");
+            window.requestAnimationFrame(draw);
+        }else{
+            playing=false;
+            $(this).attr("src","./images/play-button.png");
+            endVoltage=calculateVoltage();
+            calculatedWork=calculateWork(startVoltage,endVoltage,moving.charge,9e9);
+            $("#endVoltage").text(endVoltage.toFixed(2)+" nV");
+            $("#WorkEstimate").text((work*1e32).toFixed(2)+" x 10^-30 J");
+            $("#WorkCalculated").text((calculatedWork*1e30).toFixed(2)+" x 10^-30 J");
+        }
+        
     })
 },
 )
