@@ -71,7 +71,8 @@ function updateMoving(dt){
     const prevVoltage=calculateVoltage(moving.charge,moving.x);
     const force=calculateForce();
     const dx=(moving.v+(force/moving.m)*dt)*dt;
-    const newVoltage=calculateVoltage(moving.charge,moving.x+dx);
+    const newVoltage=calculateVoltage(moving.charge,(moving.x+dx));
+    alert(prevVoltage-newVoltage);
     moving.v=caclulateVelocity(newVoltage,moving.m,moving.charge,prevVoltage);
     const prevX=moving.x;
     moving.x+=moving.v*dt;
