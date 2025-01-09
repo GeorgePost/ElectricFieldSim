@@ -161,14 +161,14 @@ $(document).ready(
         if(!playing){
             playing=true;
             $(this).attr("src","./images/pause.png");
-            startVoltage=calculateVoltage();
+            startVoltage=calculateVoltage(moving.charge,moving.x);
             const sV=startVoltage;
             $("#startVoltage").text(sV.toFixed(2)+" nV");
             window.requestAnimationFrame(draw);
         }else{
             playing=false;
             $(this).attr("src","./images/play-button.png");
-            endVoltage=calculateVoltage();
+            endVoltage=calculateVoltage(moving.charge,moving.x);
             calculatedWork=calculateWork(startVoltage,endVoltage,moving.charge,9e9);
             $("#endVoltage").text(endVoltage.toFixed(2)+" nV");
             $("#WorkEstimate").text((work*1e32).toFixed(2)+" x 10^-30 J");
