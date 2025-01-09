@@ -63,10 +63,10 @@ function updateMoving(dt){
     const force= calculateForce();
     
     moving.v+=(force/moving.m)*dt;
-    
+    const prevX=moving.x;
     moving.x+=moving.v*dt;
     const newForce=calculateForce();
-    work+=(newForce*moving.v*dt);
+    work+=(newForce*(moving.x-prevX));
     moving.volts=calculateVoltage();
     console.log(moving);
 }
