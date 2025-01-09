@@ -56,18 +56,23 @@ function clearScreen(ctx){
 function calculateForce(){
     return k*(moving.charge*starionary.charge)/Math.pow(moving.x,2)
 }
-function calculateVoltage(){
-    return vk*(starionary.charge)/(moving.x)
+function calculateVoltage(charge,x){
+    return vk*(charge)/(x)
+}
+function calculateVelocity(volt,m,q,prevVolt){
+    return Math.sqrt(2*q*(volt-prevVolt)/m)
 }
 function updateMoving(dt){
-    const force= calculateForce();
-    
-    moving.v+=(force/moving.m)*dt;
+    const prevVoltage=calculateVoltage(moving.charge,moving.x);
+    const force=calculateForce();
+    const dx=(moving.v+(force/moving.m)*dt)*dt;
+    const newVoltage=calculateVoltage(moving.charge,moving.x+dx);
+    moving.v=caclulateVelocity(newVoltage,moving.m,moving.charge,prevVoltage);
     const prevX=moving.x;
     moving.x+=moving.v*dt;
     const newForce=calculateForce();
     work+=(newForce*(moving.x-prevX));
-    moving.volts=calculateVoltage();
+    
     console.log(moving);
 }
 function draw(){
