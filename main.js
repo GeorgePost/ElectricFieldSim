@@ -162,9 +162,9 @@ $(document).ready(
             endVoltage=calculateVoltage();
             calculatedWork=calculateWork(startVoltage,endVoltage,moving.charge,9e9);
             let coolWork=0;
-            for(let i=intial*10000;i<(moving.x*10000);i++){
-                const x=i/10000;
-                coolWork+=calculateForce(x)*1/10000;
+            for(let i=intial*200;i<(moving.x*200);i++){
+                const x=i/200;
+                coolWork+=calculateForce(x)*1/200;
             }
             alert(coolWork);
             $("#endVoltage").text(endVoltage.toFixed(2)+" nV");
