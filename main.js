@@ -164,7 +164,7 @@ $(document).ready(
             let coolWork=0;
             for(let i=intial*10000;i<(moving.x*10000);i++){
                 const x=i/10000;
-                coolWork+=calculateForce(i)*1/10000;
+                coolWork+=calculateForce(x)*1/10000;
             }
             alert(coolWork);
             $("#endVoltage").text(endVoltage.toFixed(2)+" nV");
