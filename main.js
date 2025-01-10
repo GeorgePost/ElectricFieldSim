@@ -56,29 +56,18 @@ function clearScreen(ctx){
 function calculateForce(){
     return k*(moving.charge*starionary.charge)/Math.pow(moving.x,2)
 }
-function calculateVoltage(charge,x){
-    return vk*(charge)/(x)
-}
-function calculateVelocity(volt,m,q,prevVolt){
-    if(volt>prevVolt){
-        return Math.sqrt(2*q*(volt-prevVolt)/(m*9e9));
-    }else{
-        return Math.sqrt(2*q*(prevVolt-volt)/(m*9e9));
-    }
-    
+function calculateVoltage(){
+    return vk*(starionary.charge)/(moving.x)
 }
 function updateMoving(dt){
-    const prevVoltage=calculateVoltage(moving.charge,moving.x);
-    const force=calculateForce();
-    const dx=(moving.v+(force/moving.m)*dt)*dt;
-    const newVoltage=calculateVoltage(moving.charge,(moving.x+dx));
-    alert(prevVoltage-newVoltage);
-    moving.v=caclulateVelocity(newVoltage,moving.m,moving.charge,prevVoltage);
+    const force= calculateForce();
+    
+    moving.v+=(force/moving.m)*dt;
     const prevX=moving.x;
     moving.x+=moving.v*dt;
     const newForce=calculateForce();
     work+=(newForce*(moving.x-prevX));
-    
+    moving.volts=calculateVoltage();
     console.log(moving);
 }
 function draw(){
@@ -161,14 +150,14 @@ $(document).ready(
         if(!playing){
             playing=true;
             $(this).attr("src","./images/pause.png");
-            startVoltage=calculateVoltage(moving.charge,moving.x);
+            startVoltage=calculateVoltage();
             const sV=startVoltage;
             $("#startVoltage").text(sV.toFixed(2)+" nV");
             window.requestAnimationFrame(draw);
         }else{
             playing=false;
             $(this).attr("src","./images/play-button.png");
-            endVoltage=calculateVoltage(moving.charge,moving.x);
+            endVoltage=calculateVoltage();
             calculatedWork=calculateWork(startVoltage,endVoltage,moving.charge,9e9);
             $("#endVoltage").text(endVoltage.toFixed(2)+" nV");
             $("#WorkEstimate").text((work*1e32).toFixed(2)+" x 10^-30 J");
