@@ -162,7 +162,9 @@ $(document).ready(
             endVoltage=calculateVoltage();
             calculatedWork=calculateWork(startVoltage,endVoltage,moving.charge,9e9);
             let coolWork=0;
-            for(let i=intial*200;i<(moving.x*200);i++){
+            const conditional=moving.x>initial?moving.x:initial;
+            const firstI=intial>moving.x?moving.x:initial;
+            for(let i=first*200;i<(conditional*200);i++){
                 const x=i/200+1/200;
                 coolWork+=calculateForce(x)*1/200;
             }
