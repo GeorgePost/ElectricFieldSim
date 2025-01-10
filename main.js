@@ -163,7 +163,7 @@ $(document).ready(
             calculatedWork=calculateWork(startVoltage,endVoltage,moving.charge,9e9);
             let coolWork=0;
             for(let i=intial*200;i<(moving.x*200);i++){
-                const x=i/200;
+                const x=i/200+1/200;
                 coolWork+=calculateForce(x)*1/200;
             }
             alert(coolWork);
