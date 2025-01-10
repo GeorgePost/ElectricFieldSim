@@ -168,7 +168,7 @@ $(document).ready(
             }
             alert(coolWork);
             $("#endVoltage").text(endVoltage.toFixed(2)+" nV");
-            $("#WorkEstimate").text((work*1e32).toFixed(2)+" x 10^-30 J");
+            $("#WorkEstimate").text((coolWork*1e32).toFixed(2)+" x 10^-30 J");
             $("#WorkCalculated").text((calculatedWork*1e30).toFixed(2)+" x 10^-30 J");
         }
         
