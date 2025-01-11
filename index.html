@@ -59,7 +59,7 @@
                 <td></td>
                 <td>Position</td>
                 <td>
-                    <input id="Position" type="range" min="1" max="5" value="2">
+                    <input id="Position" type="range" min="1" max="5" value="1">
                 </td>
                 <td>
                     <p>End Voltage: <span id="endVoltage"></span></p>
@@ -67,6 +67,18 @@
                 <td>Calculated Work: <span id="WorkCalculated"></span></td>
             </tr>
         </table>
+    </div>
+    <div class="footer">
+        <p class="center">
+            The error for the estimated Work is roughly 10%.<br>
+            The reason for this error is position needs to be numerically integrated twice.<br>
+            This causes alot of discrepencies with the position it should be and the estimated position.
+        </p>
+        <p class="endNote">
+            <p>
+                Made by George Postica
+            </p>
+        </p>
     </div>
     </div>
     <script type="text/javascript" src="main.js"></script>
