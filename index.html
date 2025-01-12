@@ -19,7 +19,7 @@
                 <td>Stationary Charge:</td>
                 <td>
                     <label class="switch">
-                        <input id="StationaryCharge" type="checkbox">
+                        <input class="input" id="StationaryCharge" type="checkbox">
                         <span class="slider round"></span>
                     </label>
                 </td>
@@ -28,7 +28,7 @@
                 </td>
                 <td>
                     <label class="switch">
-                        <input id="MovingCharge" type="checkbox">
+                        <input class="input"  id="MovingCharge" type="checkbox">
                         <span class="slider round"></span>
                     </label>
                 </td>   
@@ -40,12 +40,12 @@
             <tr>
                 <td>Charge</td>
                 <td>
-                    <input id="StationaryChargeAmount" type="range" min="1" max="10" value="1">
+                    <input class="myslider"  id="StationaryChargeAmount" type="range" min="1" max="10" value="1">
                     <button class="choosen" id="StationaryTypeE">e</button>
                 </td>
                 <td>Charge</td>
                 <td>
-                    <input id="MovingChargeAmount" type="range" min="1" max="10" value="1">
+                    <input class="myslider"  id="MovingChargeAmount" type="range" min="1" max="10" value="1">
                     <button class="choosen" id="MovingTypeE">e</button>
                 </td>
                 <td>
@@ -59,7 +59,7 @@
                 <td></td>
                 <td>Position</td>
                 <td>
-                    <input id="Position" type="range" min="1" max="5" value="1">
+                    <input class="myslider"  id="Position" type="range" min="1" max="5" value="1">
                 </td>
                 <td>
                     <p>End Voltage: <span id="endVoltage"></span></p>
@@ -72,7 +72,7 @@
         <p class="center">
             The error for the estimated Work is roughly 10%.<br>
             The reason for this error is position needs to be numerically integrated twice.<br>
-            This causes alot of discrepencies with the position it should be and the estimated position.
+            If you would like to run this simulation again, reload the tab.
         </p>
         <p class="endNote">
             <p>

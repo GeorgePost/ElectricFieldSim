@@ -154,6 +154,11 @@ $(document).ready(
             startVoltage=calculateVoltage();
             const sV=startVoltage;
             intial=moving.x;
+            document.getElementById("StationaryChargeAmount").disabled=true;
+            document.getElementById("MovingChargeAmount").disabled=true;
+            document.getElementById("Position").disabled=true;
+            document.getElementById("StationaryCharge").disabled=true;
+            document.getElementById("MovingCharge").disabled=true;
             $("#startVoltage").text(sV.toFixed(2)+" nV");
             window.requestAnimationFrame(draw);
         }else{
@@ -162,18 +167,18 @@ $(document).ready(
             endVoltage=calculateVoltage();
             calculatedWork=calculateWork(startVoltage,endVoltage,moving.charge,9e9);
             let coolWork=0;
+            const slices=1000000;
             if(intial>moving.x){
-                for(let i=moving.x*200;i<(intial*200);i++){
-                    const x=i/200+1/200;
-                    coolWork+=calculateForce(x)*(-1/200);
+                for(let i=moving.x*slices;i<(intial*slices);i++){
+                    const x=i/slices+1/slices;
+                    coolWork+=calculateForce(x)*(-1/slices);
                 }
             }else{
-                for(let i=intial*200;i<(moving.x*200);i++){
-                    const x=i/200+1/200;
-                    coolWork+=calculateForce(x)*(1/200);
+                for(let i=intial*slices;i<(moving.x*slices);i++){
+                    const x=i/slices+1/slices;
+                    coolWork+=calculateForce(x)*(1/slices);
                 }
             }
-            alert(coolWork);
             $("#endVoltage").text(endVoltage.toFixed(2)+" nV");
             $("#WorkEstimate").text((coolWork*1e32).toFixed(2)+" x 10^-30 J");
             $("#WorkCalculated").text((calculatedWork*1e30).toFixed(2)+" x 10^-30 J");
