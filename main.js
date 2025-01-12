@@ -80,8 +80,12 @@ function draw(){
         window.requestAnimationFrame(draw);
     }   
 }
-function calculateWork(v1,v2,q,divisor){
-    return (v1-v2)/divisor*q;
+function calculateWork(v1,v2,q){
+    console.log(v1,v2,q);
+    
+    const work=((v1-v2))*q;
+    console.log(work);
+    return work;
 }
 $(document).ready(
     function(){
@@ -159,13 +163,13 @@ $(document).ready(
             document.getElementById("Position").disabled=true;
             document.getElementById("StationaryCharge").disabled=true;
             document.getElementById("MovingCharge").disabled=true;
-            $("#startVoltage").text(sV.toFixed(2)+" pV");
+            $("#startVoltage").text(sV.toFixed(5)+" pV");
             window.requestAnimationFrame(draw);
         }else{
             playing=false;
             $(this).attr("src","./images/play-button.png");
             endVoltage=calculateVoltage();
-            calculatedWork=calculateWork(startVoltage,endVoltage,moving.charge,9e9);
+            calculatedWork=calculateWork(startVoltage,endVoltage,moving.charge);
             let coolWork=0;
             const slices=1000000;
             if(intial>moving.x){
@@ -179,9 +183,9 @@ $(document).ready(
                     coolWork+=calculateForce(x)*(1/slices);
                 }
             }
-            $("#endVoltage").text(endVoltage.toFixed(2)+" pV");
-            $("#WorkEstimate").text((coolWork*1e32).toFixed(2)+" x 10^-30 J");
-            $("#WorkCalculated").text((calculatedWork*1e30).toFixed(2)+" x 10^-30 J");
+            $("#endVoltage").text(endVoltage.toFixed(5)+" pV");
+            $("#WorkEstimate").text((coolWork*1e32).toFixed(5)+" x 10^-32 J");
+            $("#WorkCalculated").text((calculatedWork*1e20).toFixed(5)+" x 10^-32 J");
         }
         
     })
