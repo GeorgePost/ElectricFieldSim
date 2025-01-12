@@ -159,7 +159,7 @@ $(document).ready(
             document.getElementById("Position").disabled=true;
             document.getElementById("StationaryCharge").disabled=true;
             document.getElementById("MovingCharge").disabled=true;
-            $("#startVoltage").text(sV.toFixed(2)+" nV");
+            $("#startVoltage").text(sV.toFixed(2)+" pV");
             window.requestAnimationFrame(draw);
         }else{
             playing=false;
@@ -179,7 +179,7 @@ $(document).ready(
                     coolWork+=calculateForce(x)*(1/slices);
                 }
             }
-            $("#endVoltage").text(endVoltage.toFixed(2)+" nV");
+            $("#endVoltage").text(endVoltage.toFixed(2)+" pV");
             $("#WorkEstimate").text((coolWork*1e32).toFixed(2)+" x 10^-30 J");
             $("#WorkCalculated").text((calculatedWork*1e30).toFixed(2)+" x 10^-30 J");
         }
