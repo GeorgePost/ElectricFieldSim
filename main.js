@@ -76,52 +76,40 @@ function draw(){
     clearScreen(ctx);
     updateMoving(dt);
     drawMovingCharge(ctx,moving);
-    if(playing){
+    if(playing && moving.x>0.9){
         window.requestAnimationFrame(draw);
-    }   
+    }else if(moving.x<0.9){
+        playing=false;
+        $("#PlaySim").attr("src","./images/play-button.png");
+        endVoltage=calculateVoltage();
+        calculatedWork=calculateWork(startVoltage,endVoltage,moving.charge);
+        let coolWork=0;
+        const slices=1000000;
+        if(intial>moving.x){
+            for(let i=moving.x*slices;i<(intial*slices);i++){
+                const x=i/slices+1/slices;
+                coolWork+=calculateForce(x)*(-1/slices);
+            }
+        }else{
+            for(let i=intial*slices;i<(moving.x*slices);i++){
+                const x=i/slices+1/slices;
+                coolWork+=calculateForce(x)*(1/slices);
+            }
+        }
+        $("#endVoltage").text(endVoltage.toFixed(5)+" pV");
+        $("#WorkEstimate").text((coolWork*1e32).toFixed(5)+" x 10^-32 J");
+        $("#WorkCalculated").text((calculatedWork*1e20).toFixed(5)+" x 10^-32 J");
+    }
 }
 function calculateWork(v1,v2,q){
     console.log(v1,v2,q);
-    
     const work=((v1-v2))*q;
     console.log(work);
     return work;
 }
 $(document).ready(
     function(){
-    drawMovingCharge(ctx,moving);    
-    $('#StationaryTypeE').click(function(){
-        if(!($('#StationaryTypeE').hasClass('choosen'))){
-            $('#StationaryTypeE').addClass("choosen");
-            $('#StationaryTypeC').removeClass("choosen");
-            starionary.charge*=1.6e-19;
-            drawMovingCharge(ctx,moving);
-        }
-    });
-    $("#StationaryTypeC").click(function(){
-        if(!($('#StationaryTypeC').hasClass('choosen'))){
-            $('#StationaryTypeC').addClass("choosen");
-            $('#StationaryTypeE').removeClass("choosen");
-            starionary.charge/=1.6e-13;
-            drawMovingCharge(ctx,moving);
-        }
-    });
-    $('#MovingTypeE').click(function(){
-        if(!($('#MovingTypeE').hasClass('choosen'))){
-            $('#MovingTypeE').addClass("choosen");
-            $('#MovingTypeC').removeClass("choosen");
-            moving.charge*=1.6e-19;
-            drawMovingCharge(ctx,moving);
-        }
-    });
-    $("#MovingTypeC").click(function(){
-        if(!($('#MovingTypeC').hasClass('choosen'))){
-            $('#MovingTypeC').addClass("choosen");
-            $('#MovingTypeE').removeClass("choosen");
-            moving.charge/=1.6e-13;
-            drawMovingCharge(ctx,moving);
-        }
-    });
+    drawMovingCharge(ctx,moving);
     $("#StationaryCharge").click(function(){
         starionary.charge*=-1;
         console.log(starionary);
