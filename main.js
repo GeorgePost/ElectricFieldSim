@@ -126,7 +126,7 @@ $(document).ready(
     });
     $("#MovingChargeAmount").change(function(){
         if(moving.charge<0){
-            moving.charge=-(parseInt($(this).val())*(1.6e-19));
+            moving.charge=(parseInt($(this).val())*(-1.6e-19));
         }else{
             moving.charge=(parseInt($(this).val())*(1.6e-19));
         } 
