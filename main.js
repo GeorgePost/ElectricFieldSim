@@ -125,12 +125,11 @@ $(document).ready(
         drawMovingCharge(ctx,moving);
     });
     $("#MovingChargeAmount").change(function(){
-        if(moving.charge<1e-6){
-            moving.charge=(parseInt($(this).val())*(1.6e-19));
+        if(moving.charge<0){
+            moving.charge=-(parseInt($(this).val())*(1.6e-19));
         }else{
-            moving.charge=(parseInt($(this).val())*1e-6);
-            scale++;
-        }
+            moving.charge=(parseInt($(this).val())*(1.6e-19));
+        } 
     })
     $("#StationaryChargeAmount").change(function(){
         if(starionary.charge<1e-6){
@@ -180,4 +179,4 @@ $(document).ready(
 },
 )
 const canvas=document.getElementById("field");
-    var ctx=canvas.getContext("2d");
+var ctx=canvas.getContext("2d");
